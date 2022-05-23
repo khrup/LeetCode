@@ -29,18 +29,11 @@ class Solution {
             return;
         }
 
-        if (map.containsKey(level)) {
-            List<Integer> tmp = map.get(level).stream().collect(Collectors.toList());
-            tmp.add(root.val);
-            map.put(level, tmp);
-        }else{
-            map.put(level, List.of(root.val));
-        }
-
-//        map.merge(level, List.of(root.val), (v1, v2) -> {
-//            v2.add(root.val);
-//            return v2;
-//        });
+        map.merge(level, List.of(root.val), (v1, v2) -> {
+            List<Integer> collect =  v1.stream().collect(Collectors.toList());
+            collect.add(root.val);
+            return collect;
+        });
 
         dfs(level + 1, root.left);
         dfs(level + 1, root.right);
